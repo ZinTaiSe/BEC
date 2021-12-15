@@ -5,11 +5,12 @@
       <mapping pattern="j" type="CSS" />
       <mapping pattern="departments" type="JSON" />
       <mapping pattern="Description" type="PLAIN_TEXT" />
-      <mapping pattern="defs" type="PLAIN_TEXT" />
       <mapping pattern="PS" type="PLAIN_TEXT" />
+      <mapping pattern="defs" type="PLAIN_TEXT" />
       <mapping pattern="doc" type="PLAIN_TEXT" />
       <mapping ext="data" type="PLAIN_TEXT" />
       <mapping pattern="1" type="Python" />
+      <mapping pattern="main" type="Python" />
       <mapping ext="2021" type="Python" />
     </extensionMap>
   </component>
