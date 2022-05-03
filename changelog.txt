@@ -1,0 +1,13 @@
+-----1.4 Update-----
+  - Fixed image appearance
+  - Minor structure changes
+
+-----1.3 Update-----
+  - Fundamental design added
+  
+-----1.2 Update-----
+  - Code restructuring
+ 
+-----1.1 Update-----
+  - Project concept
+  - Starter code
