@@ -6,4 +6,4 @@ Repository with Python final project for Algoritmika.
   Использованные технологии:
   - Python 3.7
   - PyQt 5
-  - MySQL 8 & SQL Alchemy
+  - MySQL 8 & PyMySQL
