@@ -1,13 +1,31 @@
------1.4 Update-----
+----- 2.1 Update -----
+    <<05.05.2022>>
+    
+  - SQLite3 database 
+  - Data section
+    - Sorting system
+    - Database connection
+  - Main window image 
+    appearence system
+
+----- 1.4 Update -----
+    <<03.05.2022>>
+    
   - Fixed image appearance
   - Minor structure changes
 
------1.3 Update-----
+----- 1.3 Update -----
+   <<02.05.2022>>
+    
   - Fundamental design added
   
------1.2 Update-----
+----- 1.2 Update -----
+    <<02.05.2022>>
+    
   - Code restructuring
  
------1.1 Update-----
+----- 1.1 Update -----
+   <<01.05.2022>>
+
   - Project concept
   - Starter code
