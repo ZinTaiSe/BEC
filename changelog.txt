@@ -1,3 +1,17 @@
+----- 2.2 Update -----
+    <<07.05.2022>>
+    
+    - Personal section
+    - Info section updated
+
+----- 2.2 Update -----
+    <<07.05.2022>>
+    
+    - No-image-sign
+    - Design styles changed
+      in MainWindow
+
+
 ----- 2.1 Update -----
     <<05.05.2022>>
     
