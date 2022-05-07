@@ -1,13 +1,13 @@
-from PyQt5.QtWidgets import (QMainWindow, QApplication, QWidget, QLabel, QMessageBox,
-                             QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QTextEdit, QListWidget)
-from PyQt5.QtCore import Qt
-from PyQt5.Qt import QPixmap
-from PyQt5.QtGui import QFont
-import style as s
 import webbrowser
-import main as m
-import db
-import sys
+
+from PyQt5.Qt import QPixmap
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import (QWidget, QLabel, QMessageBox, QApplication,
+                             QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QListWidget)
+
+import db, sys
+import style as s
 
 
 class App(QWidget):
@@ -24,16 +24,15 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setFixedSize(self.width, self.height)
-        # self.setStyleSheet(s.background)
         self.hide()
 
 
 class TitleWindow(App):
-    def __init__(self, title, left, top, width, height, login, password, path, main_win):
+    def __init__(self, title, left, top, width, height, key, path, main_win):
         super().__init__(title, left, top, width, height)
 
-        self.keyLogin = login
-        self.keyPassword = password
+        self.keyLogin = key[0][0]
+        self.keyPassword = key[0][1]
         self.main_win = main_win
 
         self.v_line = QVBoxLayout()
@@ -52,7 +51,6 @@ class TitleWindow(App):
         self.initUI()
 
     def initUI(self):
-        # self.logo.setStyleSheet(s.logo)
         self.logo.setPixmap(self.pixmap)
 
         self.heading.setStyleSheet(s.q_text_style)
@@ -88,7 +86,7 @@ class TitleWindow(App):
 
 
 class MainWindow(App):
-    def __init__(self, title, left, top, width, height, path, window):
+    def __init__(self, title, left, top, width, height, path, data_win, person_win):
         super().__init__(title, left, top, width, height)
 
         self.h_line = QHBoxLayout()
@@ -109,14 +107,18 @@ class MainWindow(App):
         self.but_mail = QPushButton("Обратная \n связь")
         self.buttons = [self.but_profile, self.but_data, self.but_calc, self.but_mail]
 
-        self.win = window
+        self.data_win = data_win
+        self.person_win = person_win
         self.alert = QMessageBox()
         self.msg = QMessageBox()
+        self.link_button = None
 
         self.initUI()
         self.show_image()
 
     def initUI(self):
+        self.but_info.setStyleSheet(s.info_button)
+        self.logo_sign.setStyleSheet(s.logo_sign)
         self.logo.setMaximumSize(400, 500)
         self.logo.setPixmap(self.pixmap)
         self.setStyleSheet(s.main_window)
@@ -129,8 +131,10 @@ class MainWindow(App):
         self.msg.setText("Справочная информация")
         self.msg.setInformativeText(s.info_text)
         self.msg.setWindowTitle("Справка")
+        self.msg.addButton(QMessageBox.Ok)
+        self.link_button = self.msg.addButton("changelogs", QMessageBox.YesRole)
+        self.link_button.clicked.connect(self.go_to_changelog)
 
-        self.but_info.setStyleSheet(s.info_button)
         for button in self.buttons:
             button.setFixedSize(120, 80)
             button.setStyleSheet(s.main_buttons)
@@ -150,7 +154,7 @@ class MainWindow(App):
         self.h2_line.addWidget(self.but_mail, alignment=Qt.AlignCenter)
 
         self.but_info.clicked.connect(self.info)
-        self.but_profile.clicked.connect(self.test)
+        self.but_profile.clicked.connect(self.profile)
         self.but_data.clicked.connect(self.data)
         self.but_calc.clicked.connect(self.test)
         self.but_mail.clicked.connect(self.butMail)
@@ -159,14 +163,21 @@ class MainWindow(App):
         self.pixmap = QPixmap(db.sort_by_date()[0][3])
         self.pixmap = self.pixmap.scaled(self.logo.width(), self.logo.height())
         self.logo.setPixmap(self.pixmap)
-        self.logo_sign.setText("Последние неполадки: \n" + db.sort_by_date()[0][1] + "\n" + db.sort_by_date()[0][4])
+        self.logo_sign.setText("Последние неполадки: \n" + db.sort_by_date()[0][1] + " (" + db.sort_by_date()[0][4] + ")")
 
     @staticmethod
     def butMail():
         webbrowser.open("https://mail.google.com/")
 
+    @staticmethod
+    def go_to_changelog():
+        webbrowser.open("https://github.com/ZinTaiSe/BEC/blob/main/changelog.txt")
+
     def data(self):
-        self.win.show()
+        self.data_win.show()
+
+    def profile(self):
+        self.person_win.show()
 
     def test(self):
         self.alert.exec_()
@@ -182,9 +193,9 @@ class DataWindow(App):
         self.main_v_line = QVBoxLayout()
         self.bottom_h_line = QHBoxLayout()
 
-        self.info = QLabel("Выберите объект в списке")
-        self.image = QLabel("Нет изображения")
-        self.pixmap = None
+        self.info = QLabel("Отсортируйте список")
+        self.image = QLabel()
+        self.pixmap = QPixmap("img/no_image.jpg")
         self.button = QPushButton("Назад")
         self.button_sort_by_date = QPushButton("Сортировка \nпо дате")
         self.button_sort_by_person = QPushButton("Сортировка \nпо исполнителю")
@@ -196,6 +207,9 @@ class DataWindow(App):
         self.data_list.itemClicked.connect(self.show_image)
         self.info.setStyleSheet(s.logo)
         self.image.setMinimumSize(350, 300)
+        self.image.setMaximumSize(380, 300)
+        self.pixmap = self.pixmap.scaled(self.image.width(), self.image.height())
+        self.image.setPixmap(self.pixmap)
 
         self.button.setStyleSheet(s.enter_button)
         self.button.clicked.connect(self.back)
@@ -233,9 +247,69 @@ class DataWindow(App):
     def sort_by_date(self):
         self.sort_type = db.sort_by_date()
         self.data_list.clear()
+        self.info.setText("Выберите объект в списке")
         self.fill_data()
 
     def sort_by_person(self):
         self.sort_type = db.sort_by_person()
         self.data_list.clear()
+        self.info.setText("Выберите объект в списке")
         self.fill_data()
+
+
+class PersonalWindow(App):
+    def __init__(self, title, left, top, height, width, name):
+        super().__init__(title, left, top, height, width)
+
+        self.main_v_line = QVBoxLayout()
+        self.data = None
+        self.label_name = QLabel(name)
+        self.label_stage = QLabel("Стаж:   9 лет")
+        self.label_job = QLabel("Должность:   Инженер-инспектор")
+        self.label_status = QLabel("Статус:   На объекте...")
+        self.button = QPushButton("Назад")
+        self.data_list = QListWidget()
+        self.image = QLabel()
+        self.pixmap = QPixmap("img/no_image.jpg")
+
+        self.fill_data()
+        self.initUI()
+
+    def initUI(self):
+        self.data_list.itemClicked.connect(self.show_image)
+        self.button.clicked.connect(self.back)
+
+        self.image.setMaximumSize(380, 330)
+        self.pixmap = self.pixmap.scaled(self.image.width(), self.image.height())
+        self.image.setPixmap(self.pixmap)
+
+        self.label_name.setStyleSheet(s.logo_sign)
+        self.button.setStyleSheet(s.enter_button)
+        self.label_stage.setStyleSheet(s.label_info)
+        self.label_job.setStyleSheet(s.label_info)
+        self.label_status.setStyleSheet(s.label_info)
+
+        self.main_v_line.addWidget(self.label_name, alignment=Qt.AlignCenter, stretch=2)
+        self.main_v_line.addWidget(self.label_stage, stretch=1, alignment=Qt.AlignLeft)
+        self.main_v_line.addWidget(self.label_job, stretch=1, alignment=Qt.AlignLeft)
+        self.main_v_line.addWidget(self.label_status, stretch=1, alignment=Qt.AlignLeft)
+        self.main_v_line.addWidget(self.image, stretch=5)
+        self.main_v_line.addWidget(self.data_list, stretch=5)
+        self.main_v_line.addWidget(self.button, stretch=2)
+        self.setLayout(self.main_v_line)
+
+    def fill_data(self):
+        self.data = db.data_for_person(self.label_name)
+        for element in self.data:
+            self.data_list.addItem(element[1] + ",  " + element[2])
+
+    def show_image(self):
+        date = self.data_list.selectedItems()[0].text().split(",  ")[0]
+        for item in self.data:
+            if date in item[1]:
+                self.pixmap = QPixmap(item[3])
+                self.pixmap = self.pixmap.scaled(self.image.width(), self.image.height())
+                self.image.setPixmap(self.pixmap)
+
+    def back(self):
+        self.hide()

@@ -1,7 +1,21 @@
+from style import db_ex as d
 import sqlite3
 
 db = sqlite3.connect("energy.db")
 sql = db.cursor()
+
+
+def create_some_data():
+    sql.execute("CREATE TABLE IF NOT EXISTS energy ("
+                "id INT,"
+                "time DATE,"
+                "address TEXT,"
+                "photo TEXT,"
+                "person TEXT)")
+    sql.execute("DELETE FROM energy")
+    for val in d:
+        sql.execute(f"INSERT INTO energy VALUES (?, ?, ?, ?, ?)", (val[0], val[1], val[2], val[3], val[4]))
+    db.commit()
 
 
 def show_data():
@@ -46,3 +60,13 @@ def sort_by_person():
 
     temp_list.append(data[0])
     return temp_list
+
+
+def data_for_person(name):
+    data = show_data()
+    list_of_contents = list()
+    for element in data:
+        if name.text() == element[4]:
+            list_of_contents.append(element)
+
+    return list_of_contents
