@@ -1,3 +1,9 @@
+----- 2.4 Update -----
+    <<08.05.2022>>
+    
+    - Starting progressbar
+    - Windows' icons
+
 ----- 2.3 Update -----
     <<07.05.2022>>
     
