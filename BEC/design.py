@@ -1,9 +1,10 @@
 import webbrowser
+import time
 
 from PyQt5.Qt import QPixmap
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import (QWidget, QLabel, QMessageBox, QApplication,
+from PyQt5.QtGui import QFont, QIcon
+from PyQt5.QtWidgets import (QWidget, QLabel, QMessageBox, QApplication, QProgressBar,
                              QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QListWidget)
 
 import db, sys
@@ -18,12 +19,14 @@ class App(QWidget):
         self.top = top
         self.width = width
         self.height = height
+        self.icon = QIcon("img/key.jpg")
         self.main_initUI()
 
     def main_initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setFixedSize(self.width, self.height)
+        self.setWindowIcon(self.icon)
         self.hide()
 
 
@@ -47,25 +50,30 @@ class TitleWindow(App):
         self.login = QLineEdit(self)
         self.password = QLineEdit(self)
         self.button = QPushButton("Войти", self)
-        self.button.clicked.connect(self.clicked)
+        self.progressbar = QProgressBar()
         self.initUI()
 
     def initUI(self):
         self.logo.setPixmap(self.pixmap)
+        self.progressbar.setMinimum(0)
+        self.progressbar.setMaximum(100)
+        self.progressbar.setFixedSize(600, 20)
 
         self.heading.setStyleSheet(s.q_text_style)
-        self.login.setFixedSize(400, 50)
+        self.login.setFixedSize(400, 40)
         self.login_l.setFont(QFont("Times font", 18))
-        self.password.setFixedSize(400, 50)
+        self.password.setFixedSize(400, 40)
         self.password.setEchoMode(QLineEdit.Password)
         self.password_l.setFont(QFont("Arial font", 18))
         self.button.setStyleSheet(s.enter_button)
+        self.button.clicked.connect(self.clicked)
 
         self.setLayout(self.v_line)
         self.v_line.addWidget(self.logo, alignment=Qt.AlignCenter, stretch=3)
         self.v_line.addWidget(self.heading, alignment=Qt.AlignCenter, stretch=1)
         self.v_line.addLayout(self.h1_line)
         self.v_line.addLayout(self.h2_line)
+        self.v_line.addWidget(self.progressbar, alignment=Qt.AlignCenter)
         self.v_line.addWidget(self.button)
         self.h1_line.addWidget(self.login_l, alignment=Qt.AlignCenter)
         self.h1_line.addWidget(self.login)
@@ -77,6 +85,10 @@ class TitleWindow(App):
         password = self.password.text()
 
         if (login == self.keyLogin) and (password == self.keyPassword):
+            for i in range(100):
+                time.sleep(0.01)
+                self.progressbar.setValue(i+1)
+
             self.hide()
             self.main_win.show()
         else:
