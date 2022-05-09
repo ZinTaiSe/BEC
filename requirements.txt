@@ -1,3 +1,7 @@
 Python==3.7
-PyQt5==5..15.6
+PyQt5==5.15.4
 SQLite==3
+
+style
+design
+db
