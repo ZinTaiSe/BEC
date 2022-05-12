@@ -1,5 +1,6 @@
 from style import db_ex as d
 import sqlite3
+import os
 
 db = sqlite3.connect("energy.db")
 sql = db.cursor()
@@ -70,3 +71,14 @@ def data_for_person(name):
             list_of_contents.append(element)
 
     return list_of_contents
+
+
+def check_new_data():
+    values = list()
+    for value in os.listdir("img"):
+        values.append(value)
+    for value in show_data():
+        if value[3] in values:
+            values.pop(values.index(value[3]))
+    if len(values) != 0:
+        create_some_data()

@@ -207,7 +207,7 @@ class DataWindow(App):
 
         self.info = QLabel("Отсортируйте список")
         self.image = QLabel()
-        self.pixmap = QPixmap("img/no_image.jpg")
+        self.pixmap = QPixmap("no_image.jpg")
         self.button = QPushButton("Назад")
         self.button_sort_by_date = QPushButton("Сортировка \nпо дате")
         self.button_sort_by_person = QPushButton("Сортировка \nпо исполнителю")
@@ -282,7 +282,7 @@ class PersonalWindow(App):
         self.button = QPushButton("Назад")
         self.data_list = QListWidget()
         self.image = QLabel()
-        self.pixmap = QPixmap("img/no_image.jpg")
+        self.pixmap = QPixmap("no_image.jpg")
 
         self.fill_data()
         self.initUI()
