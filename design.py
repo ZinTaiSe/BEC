@@ -257,16 +257,25 @@ class DataWindow(App):
                 self.info.setText(item[2])
 
     def sort_by_date(self):
+        self.change_buttons(self.button_sort_by_date, self.button_sort_by_person)
         self.sort_type = db.sort_by_date()
         self.data_list.clear()
         self.info.setText("Выберите объект в списке")
         self.fill_data()
 
     def sort_by_person(self):
+        self.change_buttons(self.button_sort_by_person, self.button_sort_by_date)
         self.sort_type = db.sort_by_person()
         self.data_list.clear()
         self.info.setText("Выберите объект в списке")
         self.fill_data()
+
+    @staticmethod
+    def change_buttons(button1: QPushButton, button2: QPushButton):
+        button1.setDisabled(True)
+        button2.setEnabled(True)
+        button1.setStyleSheet(s.not_sort_button)
+        button2.setStyleSheet(s.sort_button)
 
 
 class PersonalWindow(App):

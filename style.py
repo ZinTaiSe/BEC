@@ -1,6 +1,6 @@
 # текст всплывающего окна
 alert_text = "Некоторые разделы находятся в разработке.\n Приновим извинения за неудобства!"
-info_text = "Версия проекта: 2.5 \nПоследнее обновление: 08.05.2022 \n Чтобы оставить отзыв, пишите на почту: \n " \
+info_text = "Версия проекта: 2.6.1 \nПоследнее обновление: 13.05.2022 \n Чтобы оставить отзыв, пишите на почту: \n " \
             "                 zintaise@gmail.com \n Список обновлений: changelog.txt"
 
 db_ex = [[2, '04.05.2022 21:44', 'Nevskogo 15 B', 'img\\trans_2.jpg', 'Kovalevski A.P.'],
@@ -10,6 +10,8 @@ db_ex = [[2, '04.05.2022 21:44', 'Nevskogo 15 B', 'img\\trans_2.jpg', 'Kovalevsk
          [13, '07.03.2022', 'Pochtovaya 231', 'img\\el_13.jpg', 'Dulova M.D.'],
          [14, '15.12.2021', 'Pochtovaya 21', 'img\\el_14.jpg', "Rodionov P.V."],
          [27, '17.07.2020', 'Revolyutsiy 44', 'img\\el_27.jpg', 'Maslova V.A.']]
+
+letters = "abcdefghijklmnopqrstuvwxyz"
 # ----------------------------------------------------------------
 # фон главного окна (+ кнопки данных)
 background = "background-color: rgb(240, 250, 255);"
@@ -38,6 +40,8 @@ sort_button = "QPushButton{" \
                "font-size:10pt;" \
                "background-color:rgb(0, 128, 255);" \
                "font-weight:bold;}"
+
+not_sort_button = "QPushButton{font-size: 0pt;}"
 
 # ----------------------------------------------------------------------
 # кнопки главного экрана

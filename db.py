@@ -1,4 +1,4 @@
-from style import db_ex as d
+from style import db_ex, letters
 import sqlite3
 import os
 
@@ -14,7 +14,7 @@ def create_some_data():
                 "photo TEXT,"
                 "person TEXT)")
     sql.execute("DELETE FROM energy")
-    for val in d:
+    for val in db_ex:
         sql.execute(f"INSERT INTO energy VALUES (?, ?, ?, ?, ?)", (val[0], val[1], val[2], val[3], val[4]))
     db.commit()
 
@@ -50,17 +50,15 @@ def sort_by_date():
 
 def sort_by_person():
     data = show_data()
-    temp_list = list()
+    list_of_contents = list()
 
-    for item in data:
-        person = item[4]
-        for it in data:
-            if person in it[4]:
-                temp_list.append(it)
-                data.remove(it)
+    while len(data) > 0:
+        person = data[0][4]
+        for item in data:
+            if person in item[4]:
+                list_of_contents.append(data.pop(data.index(item)))
 
-    temp_list.append(data[0])
-    return temp_list
+    return list_of_contents
 
 
 def data_for_person(name):
